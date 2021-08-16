@@ -1,0 +1,131 @@
+<odoo>
+    <data>
+        <!--view视图-->
+        <record model="ir.ui.view" id="epidemic_record_view">
+            <field name="name">疫情记录</field>
+            <field name="model">epidemic.record</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="is_ill"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <field name="city"/>
+                    <field name="county"/>
+                    <field name="street"/>
+                    <field name="ill_type"/>
+                    <field name="within_or_abroad"/>
+                </tree>
+            </field>
+        </record>
+        <!--form试图-->
+        <record model="ir.ui.view" id="epidemic_record_form_view">
+            <field name="name">疫情记录</field>
+            <field name="model">epidemic.record</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="归档" name="unlink_btn" class="btn btn-primary" type="object"/>
+                        <button string="取消归档" name="unlink_cancel_btn" class="btn btn-primary" type="object"/>
+                        <button string="搜索" name="search_test" class="btn-secondary" type="object"/>
+                        <button string="创建用户" name="create_to_users" class="btn btn-primary" type="object"/>
+                        <button string="修改用户" name="update_to_users" class="btn btn-primary" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" string="姓名" required="1"/>
+                                <field name="is_ill" string="是否确诊"/>
+                                <field name="within_or_abroad" string="境内/境外" required="1"/>
+                                <field name="begin_lsolation_date" string="起始隔离日期"
+                                       attrs="{'required':[('is_ill','=',False)],'invisible':[('is_ill','=',True)]}"/>
+                                <field name="lsolation_mode" string="隔离方式"
+                                       attrs="{'required':[('is_ill','=',False)],'invisible':[('is_ill','=',True)]}"/>
+                                <field name="ill_type" string="感染方式"
+                                       attrs="{'required':[('is_ill','=',True)],'invisible':[('is_ill','=',False)]}"/>
+                                <field name="date" string="确诊日期"
+                                       attrs="{'required':[('is_ill','=',True)],'invisible':[('is_ill','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="state" string="省" required="1"/>
+                                <field name="city" string="市" required="1"/>
+                                <field name="county" string="区/县"/>
+                                <field name="street" string="具体地址" required="1"/>
+                                <field name="creat_user_id" string="填报人" readonly="1"/>
+                                <field name="fuzhu_create_user_ids" string="辅助填报人" widget="many2many_tags"
+                                       options="{'no_create':True,'no_edit':True}"/>
+                                <!--widget="many2many_tags"设置Many2many字段的样式，固定传参，-->
+                                <!--而options="{'no_create':True,'no_edit':True}"这里是限定住用户不能通过关联字段来创建或者编辑所被关联-->
+                                <!--模型的数据-->
+                                <field name="test_float"/>
+                                <field name="test_int"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="说明">
+                                <field name="note" placeholder="其他信息"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--search视图-->
+        <record model="ir.ui.view" id="epidemic_record_search_view">
+            <field name="name">疫情记录</field>
+            <field name="model">epidemic.record</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="state"/>
+
+                    <!-- 筛选-->
+                    <filter string="已确诊" name="is_ill" domain="[('is_ill','=',True)]"/>
+                    <filter string="未确诊" name="is_ill" domain="[('is_ill','=',False)]"/>
+                    <!--分组-->
+                    <group expand="1">
+                        <filter string="是否确诊" name="is_ill" context="{'group_by':'is_ill'}"/>
+                        <filter string="填报人" name="creat_user_id" context="{'group_by':'creat_user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--透视表-->
+        <record model="ir.ui.view" id="epidemic_record_pivot_view">
+            <field name="name">疫情记录透视表</field>
+            <field name="model">epidemic.record</field>
+            <field name="arch" type="xml">
+                <pivot disable_linking="True">
+                    <field name="is_ill" type="row"></field>
+                    <field name="test_float" type="measure"></field>
+                    <field name="test_int" type="measure"></field>
+                </pivot>
+            </field>
+        </record>
+        <!--graph图表-->
+        <record model="ir.ui.view" id="epidemic_record_graph_view">
+            <field name="name">疫情记录图表</field>
+            <field name="model">epidemic.record</field>
+            <field name="arch" type="xml">
+                <graph type="pie">
+                    <field name="state" type="row"></field>
+                    <field name="test_int" type="measure"></field>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="epidemic_record_act_window">
+            <field name="name">疫情记录</field>
+            <field name="res_model">epidemic.record</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="context">{'active_test':True}</field>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem name="疫情记录" id="epidemic_record_menu_root" groups="base.group_user" sequence="10"/>
+        <menuitem name="疫情记录" id="sec_epidemic_record_menu"
+                  parent="epidemic_record_menu_root"
+                  action="epidemic_record_act_window"
+                  sequence="10"/>
+    </data>
+</odoo>

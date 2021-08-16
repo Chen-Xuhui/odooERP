@@ -1,0 +1,3 @@
+#date：2021-08-15
+#author：陈旭辉
+#content：创建“epidemic_record”模块：1.练习GRUD增删改查等操作，以及删除的时候odoo自带的字段active使用

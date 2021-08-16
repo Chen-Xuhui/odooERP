@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="epidemic_record.list">
+      <field name="name">epidemic_record list</field>
+      <field name="model">epidemic_record.epidemic_record</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="epidemic_record.action_window">
+      <field name="name">epidemic_record window</field>
+      <field name="res_model">epidemic_record.epidemic_record</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="epidemic_record.action_server">
+      <field name="name">epidemic_record server</field>
+      <field name="model_id" ref="model_epidemic_record_epidemic_record"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="epidemic_record" id="epidemic_record.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="epidemic_record.menu_1" parent="epidemic_record.menu_root"/>
+    <menuitem name="Menu 2" id="epidemic_record.menu_2" parent="epidemic_record.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="epidemic_record.menu_1_list" parent="epidemic_record.menu_1"
+              action="epidemic_record.action_window"/>
+    <menuitem name="Server to list" id="epidemic_record" parent="epidemic_record.menu_2"
+              action="epidemic_record.action_server"/>
+-->
+  </data>
+</odoo>

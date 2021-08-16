@@ -1,0 +1,35 @@
+1.下载准备工具python3.8，postgresql，pycharm并安装，具体安装配置这里就不多讲了，网上很多贴
+
+2.获取github尚odoo14源码
+
+3.用pycharm打开odoo源码所在的根目录（也就是自定义上一级目录）
+
+4.在odoo-14.0/debian中找到odoo.conf文件复制一份到项目根目录下（就是那个自定义的项目根目录比如MyERP），修改复制出来的odoo.conf配置文件，指定admin_passwd（创建数据库时的管理主密码），
+db_host（本地的化配置为127.0.0.1），db_password（安装postgresql时设置的密码），db_port（配置为5432，也就是postgresql数据库的默认端口），db_user（安装postgresql时新创建的一个用户，具体可网上查），
+addons_path（配置odoo-14.0源码中“odoo-14.0\odoo\addons”和“\odoo-14.0\addons”路径，如果后面开发的自定义模块的化，也在这里配置），基本配置这些就够了，更多配置和作用可网上查寻了解
+
+5.配置完之后，接着给项目MyERP创建一个虚拟环境venv，pycharm--》setting--》project--》点击解释器右侧的设置按钮在点击add添加--》弹出的添加python解释器窗口我们选择第一个virtualenv环境--》
+接着基本解释器选择安装python的本身exe程序确认在应用退出即可--》解释器添加好了之后我们可以在项目中看到venv的文件
+
+6.设置一个运行/调试的配置，pycharm右上角点击添加后在弹出的窗口点击符号“+”选择python；
+	1>.脚本路径：选择源码odoo-14.0中odoo-bin文件。（命令行设定）例如：F:\study\MyERP\Code\odoo-14.0\odoo-bin
+	2>.参数：设置为"-c 开始配置根目录下的odoo.conf文件路径"	例如：-c F:\study\MyERP\odoo.conf	（注意：这里补充一下如果在-c的前边改为[--dev=all -c F:\study\MyERP\odoo.conf]相当于开启开发者模式，后续如果修改的xml或者js的话都不用对模块进行手动升级了，但是py文件改了的话还是要升级）
+	3>.点击确认即可
+
+
+7.所以的配置基本完成了，这时我们要将odoo源码项目的依赖包安装通过pip库管理器命令安装到添加的虚拟环境venv中，具体如下：
+	1>因为国内外经常pip被墙，所以推荐咱们先换源，这里以阿里云为今典代表，因为他最全。
+	pycharm的终端执行命令：pip config set global.index-url https://mirrors.aliyun.com/pypi/simple 来达到换源，运行成功后会提示“Writing to C:\Users\你的用户\AppData\Roaming\pip\pip.ini”
+	2>然后咱们就可以运行命令来安装requirements.txt文件中所有的依赖包了：
+	pycharm终端执行命令：pip install -r Code/odoo-14.0/requirements.txt（这个地方需要注意的是你所执行命令的节点与requirements.txt实际所在的文件路径，一般都是终端切换到所在路径后执行，
+	也可以给requirements.txt前边加上路径）
+	
+	3>理想情况下是一路安装依赖包畅通的，实际与电脑环境也有关，很有可能会遇见各种包安装的报错，具体情况具体分析，这里我说一个最主要的就是error:Microsoft Visual C++ 14.0 is required,
+	这个问题原因就是由于你的windows环境确实Microsoft Visual C++ 14.0的库，而odoo的pip安装依赖包中有的需要它来进行编译安装，所以你的手动解决下：
+	3.1>方法一：那个包溢出的这个问题直接下载对应版本的.whl文件，然后运行pip install xxx.whl进行安装，但是这样不太好找，也没有根本解决问题，不过效率快，前提你要是找的快的话。
+	下载地址：https。下载地址：https://www.lfd.uci.edu/~gohlke/pythonlibs/ 
+	3.2>方法二：使用使用Microsoft Visual C++ Build Tools来，这种方法我试了下没有找到实际有用的，也不太推荐。
+	3.3>方法三：按照提示去官网下载Visual Studio，但是只安装c++的模块，可能会会花点时间，测了下大概半小时，这也是最根据解决问题的途径。
+	3.4>最后当然是重新运行命令pip install -r Code/odoo-14.0/requirements.txt，直到所有包安装成功。
+
+8.启动项目，开始你的编程之旅吧
