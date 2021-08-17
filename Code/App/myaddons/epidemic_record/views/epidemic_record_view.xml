@@ -63,7 +63,7 @@
                         </group>
                         <notebook>
                             <page string="说明">
-                                <field name="note" placeholder="其他信息"/>
+                                <field name="note" placeholder="其他信息" groups="epidemic_record.group_manager"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -122,7 +122,8 @@
         </record>
 
         <!-- Top menu item -->
-        <menuitem name="疫情记录" id="epidemic_record_menu_root" groups="base.group_user" sequence="10"/>
+        <menuitem name="疫情记录" id="epidemic_record_menu_root"
+                  groups="epidemic_record.group_base,epidemic_record.group_manager" sequence="10"/>
         <menuitem name="疫情记录" id="sec_epidemic_record_menu"
                   parent="epidemic_record_menu_root"
                   action="epidemic_record_act_window"

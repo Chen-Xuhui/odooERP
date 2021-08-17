@@ -23,10 +23,11 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'views/epidemic_record_view.xml'
+        'views/epidemic_record_view.xml',
+        'security/ir.model.access.csv',
+        'security/epidemic_record_security.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
